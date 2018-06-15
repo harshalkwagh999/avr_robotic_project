@@ -1,0 +1,6 @@
+1.Repaire external interrupt program.[ DONE ]
+2.check the script of avr_toolchain & avr_dude.
+3.sending data from avr to avr.
+4.Remove 'while' & use 'sleep' i program. [ DONE ]
+5.Write Driver for LCD {with proper moduler form}.
+6.To make the library for LCD-Drivers.

@@ -1,0 +1,93 @@
+/* This is First task for the demo of motor activation */
+#define D0 eS_PORTD0
+#define D1 eS_PORTD1
+#define D2 eS_PORTD2
+#define D3 eS_PORTD3
+#define D4 eS_PORTD4
+#define D5 eS_PORTD5
+#define D6 eS_PORTD6
+#define D7 eS_PORTD7
+#define RS eS_PORTC6
+#define EN eS_PORTC7
+
+#ifndef F_CPU
+#define F_CPU 16000000UL
+#endif
+#include<avr/io.h>
+#include "lcd.h"
+
+#define RowColDirection DDRB //Data Direction Configuration for keypad                                 
+#define ROW PORTB            //Lower four bits of PORTC are used as ROWs                               
+#define COL PINB            //Higher four bits of PORTC are used as COLs                                
+unsigned char KEYPAD_ScanKey()
+{
+  RowColDirection=0xf0;
+  unsigned char ScanKey = 0xe0,i, key;
+
+  for(i=0;i<0x04;i++)           // Scan All the 4-Rows for key press                                   
+    {
+      ROW=ScanKey + 0x0F;         // Select 1-Row at a time for Scanning the Key                        
+      key=COL & 0x0F;             // Read the Column, for key press                                    
+
+      if(key!= 0x0F)             // If the KEY press is detected for the selected                       
+        break;                   // ROW then stop Scanning,                                            
+
+      ScanKey=(ScanKey<<1)+ 0x10; // Rotate the ScanKey to SCAN the remaining Rows                     
+    }
+
+  key = key + (ScanKey & 0xf0);  // Return the row and COL status to decode the key                    
+  return(key);
+}
+
+int main()
+{
+  DDRD = 0xFF;
+  DDRC = 0xFF;
+  unsigned char key;
+
+  Lcd8_Init();
+  Lcd8_Cmd(0x0F);
+  Lcd8_Set_Cursor(1,1);
+  Lcd8_Clear();Lcd8_Write_String("Waiting for input");
+  _delay_ms(100);
+    while(1)
+      {
+  
+  key = KEYPAD_ScanKey();
+  switch(key)
+    {
+    case 0xe7: Lcd8_Clear();Lcd8_Write_String("Motor 1 selected"); break;
+    case 0xeb: Lcd8_Clear();Lcd8_Write_String("Motor 2 selected"); break;
+    case 0xed: Lcd8_Clear();Lcd8_Write_String("Motor 3 selected"); break;
+    case 0x77: Lcd8_Clear();Lcd8_Write_String("Motor 4 selected"); break;
+    case 0x7b: Lcd8_Clear();Lcd8_Write_String("Motor 5 selected"); break;
+    default: Lcd8_Clear();Lcd8_Write_String("Wrong key Pressed");break;
+    }
+ 
+
+      }
+
+    
+
+  /* _delay_ms(100); */
+  /* key = KEYPAD_ScanKey(); */
+
+  /* switch(key) */
+  /*   { */
+  /*   case 0xdb: Lcd8_Clear();Lcd8_Write_String("Backword Mode"); break; //key =0 */
+  /*   case 0xe7: Lcd8_Clear();Lcd8_Write_String("Forward Mode"); break; // key =1 */
+  /*   default: Lcd8_Clear();Lcd8_Write_String("Wrong key Pressed"); */
+  /*   } */
+    
+  /* _delay_ms(100); */
+  /* key = KEYPAD_ScanKey(); */
+
+  /* if(key==0xdd) // # for activating */
+  /*   {  Lcd8_Clear();Lcd8_Write_String("Rotate Motor");  } */
+  /* else */
+  /*   { Lcd8_Clear();Lcd8_Write_String("Wrong key Pressed");  } */
+
+  return 0;
+}
+
+

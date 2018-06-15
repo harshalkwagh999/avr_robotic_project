@@ -1,0 +1,123 @@
+/* code for Receiver in serial communication without USART */
+#ifndef F_CPU
+#define F_CPU 16000000UL
+#endif
+
+#define D0 eS_PORTD0
+#define D1 eS_PORTD1
+#define D2 eS_PORTD2
+#define D3 eS_PORTD3
+#define D4 eS_PORTD4
+#define D5 eS_PORTD5
+#define D6 eS_PORTD6
+#define D7 eS_PORTD7
+#define RS eS_PORTC6
+#define EN eS_PORTC7
+
+#include<avr/io.h>
+#include<util/delay.h>
+#include<avr/interrupt.h>
+#include "lcd.h"
+
+ISR(TIMER0_OVF_vect)
+{
+  uint8_t output[3];
+  
+  if(PINB && 1 << PB0)
+    {   output[0]=1;   }
+  else
+    {   output[0]=0;   }
+  _delay_ms(10);
+
+  if(PINB && 1 << PB0)
+    {   output[1]=1;   }
+  else
+    {   output[1]=0;   }
+  _delay_ms(10);
+
+  if(PINB && 1 << PB0)
+    {   output[2]=1;   }
+  else
+    {   output[2]=0;   }
+  _delay_ms(10);
+
+  if(output[0]==0)
+    {
+      if(output[1]==1 && output[2]==0)
+	{
+	  // PORTC = 0x01;
+	  Lcd8_Clear();
+	  Lcd8_Write_String("ZERO");
+	  _delay_ms(10);
+	}
+      else if(output[1]==0 && output[2]==1)
+	{
+	  //  PORTC = 0x04;
+	  Lcd8_Clear();
+	  Lcd8_Write_String("SUCCESS");
+	  _delay_ms(50);
+	}
+    }
+  else if(output[0]==1 && output[1]==0 && output[2]==1)
+    {
+      // PORTC=0x02;
+      Lcd8_Clear();
+      Lcd8_Write_String("ONE");
+      _delay_ms(10);
+    }
+  else
+    {
+    
+      // PORTC=0x80;
+      Lcd8_Clear();
+      Lcd8_Write_String("FAIL");
+      _delay_ms(50);
+    }
+}
+
+int main()
+{
+  DDRD = 0xFF;
+  DDRC = 0xFF;
+
+  Lcd8_Init();
+  Lcd8_Cmd(0x0F);
+
+  Lcd8_Set_Cursor(1,1);
+
+  while(1)
+    {
+      DDRB= 0xFF;
+      PORTB=0x01;
+      _delay_ms(10);
+      DDRB=0x00;
+      
+      if(PINB && 1 << PB0)
+	{
+	  _delay_ms(10);
+
+	  break;
+	}
+    }
+
+  Lcd8_Write_String("synchronise");
+  _delay_ms(10);
+
+  // enable timer overflow interrupt for both Timer0 and Timer1                                         
+  TIMSK=(1<<TOIE0);
+
+  // set timer0 counter initial value to 0                                                              
+  TCNT0=0x00;
+
+  // start timer0 with /1024 prescaler                                                                  
+  TCCR0 = (1<<CS01) | (1<<CS00);
+
+  // enable interrupts                                                                                  
+  sei();
+
+  while(1) {
+  }
+
+
+  return 0;
+}

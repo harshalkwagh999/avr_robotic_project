@@ -1,0 +1,10 @@
+#define D0 eS_LCD_PORT0
+#define D1 eS_LCD_PORT1
+#define D2 eS_LCD_PORT2
+#define D3 eS_LCD_PORT3
+#define D4 eS_LCD_PORT4
+#define D5 eS_LCD_PORT5
+#define D6 eS_LCD_PORT6
+#define D7 eS_LCD_PORT7
+#define RS eS_RS_PIN
+#define EN eS_EN_PIN

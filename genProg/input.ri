@@ -1,0 +1,35 @@
+; all the instructions between START and END considered as valid instruction.
+; after START or before END if there is any instruction will not be considered as valid
+; any thing after ";" in line is considered as comment
+; if there are english words other than comments, then it is invalid instruction (error)
+; instruction format contains following instructions:
+
+; START       	     	      - start of the executable instruction 
+; END	   		      - end of executable instructions
+; MOV [motor_no] [F/B]	      -	Move motor of the robot,where "motor_no" in 'M1','M3','M4','M5'
+;      		 	        and F: forward B:backward
+; DALAY [int_number]	      -	change the delay for next movement
+; REPEAT [number]	      -	finit loop which repeats instructions between
+;  	 		      	REPEAT and END_LOOP is repeated 'number' times
+; END_LOOP		      -	end of the loop instructions
+
+; program starts here.
+
+
+
+  START
+  DELAY 200
+  MOV M4 F
+  MOV M5 B
+  DELAY 100
+  REPEAT 5
+  MOV M3 B
+  REPEAT 5
+  MOV M4 B
+  MOV M4 F
+  END_LOOP
+  MOV M3 F
+  END_LOOP
+  MOV M5 F
+  END
+  

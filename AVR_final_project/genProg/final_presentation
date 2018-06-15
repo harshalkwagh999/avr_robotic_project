@@ -1,0 +1,26 @@
+		Title: Robot Diver using AVR (with Fault Detection and tolerance)
+
+Project Team:
+1. Harshal K Wagh	14228
+
+
+Past Referance:
+
+     - Interfacing of Robotic-arm with AVR
+     - Manual movement control
+     - Automatic movement
+     - Exception handling using sensors
+     
+     
+
+   	     	   	     	   SEM-II PROJECT
+				         |
+		 -------------------------------------------------
+		|					          |
+   Fault Detection / Tolerance			Uses Interface / Code Generation
+   
+     - Crash Removal			         - Design Instruction format
+     - Sensor Failure Detection		     - Instruction Translator
+										 - Code Generator
+
+

@@ -1,0 +1,3 @@
+#define RowColDirection DDRKEYPORT //Data Direction Configuration for keypad
+#define ROW PORTKEYPORT            //Lower four bits of PORTC are used as ROWs
+#define COL PINKEYPORT            //Higher four bits of PORTC are used as COLs

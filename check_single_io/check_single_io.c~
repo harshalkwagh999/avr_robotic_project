@@ -1,0 +1,34 @@
+/* checking single i/o */
+
+#ifndef F_CPU
+#define F_CPU 16000000UL
+#endif
+#include<avr/io.h>
+#include<util/delay.h>
+int main()
+{
+  DDRD =0xFF;   //configure portB as input
+  DDRA =0xFF;   //configure portC as output
+  DDRC =0xFF;
+  DDRB =0xFF;
+
+  PORTA =0xFF;
+  PORTC =0xFF;
+  PORTB =0xFF;
+  PORTD =0xFF;
+
+  /* while(1) */
+  /*   { */
+  /*     if(PIND & (1<<PD1)) */
+  /* 	{ PORTA=0xFF;} */
+  /*     else */
+  /* 	{ PORTA=0X00;  } */
+
+  /*      _delay_ms(100); */
+  /* 	// PORTC = PINB; */
+  /*   } */
+
+  return 0;
+}
+
+
